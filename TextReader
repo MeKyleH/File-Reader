@@ -1,0 +1,64 @@
+import java.io.BufferedReader; // Scans documents in the file
+import java.io.FileReader; // allows Java to read files from Windows
+import java.util.ArrayList;
+import java.util.List;
+
+public class TextReader {
+
+	// TextReader constructor used by vehicles.txt and people.txt
+	public TextReader() {
+
+	}
+
+	// reads the text file from a given file path and returns as a list 
+	public List<String> readTextFile(String filepath) throws Exception {
+		// creates required objects for reading the file
+		FileReader vehiclesFile = new FileReader(filepath);
+		BufferedReader fileReader = new BufferedReader(vehiclesFile);
+
+		// create list to add each vehicle
+		List<String> newList = new ArrayList<String>();
+
+		// reads each line of text within the text file and adds to the proper
+		String currentLine = fileReader.readLine();
+		while (currentLine != null) {
+			newList.add(currentLine);
+			currentLine = fileReader.readLine();
+		}
+		// closes fileReader and returns the list
+		fileReader.close();
+		return newList;
+	}
+	
+	// determines the number of people to match cars with
+	public int numberPeople(String filepath) throws Exception {
+		FileReader vehiclesFile = new FileReader(filepath);
+		BufferedReader fileReader = new BufferedReader(vehiclesFile);
+		
+		int numLines = 0;
+		String currentLine = fileReader.readLine();
+		while (currentLine != null) {
+			numLines++;
+			currentLine = fileReader.readLine();
+		}
+		fileReader.close();
+		return numLines;
+	}
+
+	// returns each line from the appropriate list and removes everything before and including the equal sign
+	public String findElement(List<String> list, int element) {
+		String originalLine = (String) list.get(element);
+		String newLine = "";
+
+		// removes itemKey and equal sign
+		for (int i = 0; i < originalLine.length(); i++) {
+			if (originalLine.charAt(i) == '=') {
+				for (int j = i + 1; j < originalLine.length(); j++) {
+					newLine += originalLine.charAt(j);
+				}
+			}
+		}
+		return newLine;
+	}
+	
+}
